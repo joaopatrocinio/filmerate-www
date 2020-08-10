@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sign Up</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+				<form class="login100-form validate-form" method="post">
+					<span class="login100-form-title p-b-33">
+						Account Creation
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "First name is required">
+						<input class="input100" type="text" name="user_firstname" id="user_firstname" placeholder="First name">
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+
+					<div class="wrap-input100 rs1 validate-input" data-validate = "Last name is required">
+						<input class="input100" type="text" name="user_lastname" id="user_lastname" placeholder="Last name">
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+
+					<div class="wrap-input100 rs1 validate-input" data-validate = "Campo obrigatório">
+						<input class="input100" type="date" name="user_data_nascimento" id="user_data_nascimento" placeholder="Data de nascimento">
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+
+					<div class="wrap-input100 rs1 p-3 d-inline-flex justify-content-around flex-wrap">
+						<div class="custom-control custom-radio custom-control-inline">
+							<input type="radio" class="custom-control-input user_sexo" id="sexo_masculino" name="user_sexo_id" value="1" required>
+							<label class="custom-control-label" for="sexo_masculino">Male</label>
+						</div>
+
+						<div class="custom-control custom-radio custom-control-inline">
+							<input type="radio" class="custom-control-input user_sexo" id="sexo_feminino" name="user_sexo_id" value="2" required>
+							<label class="custom-control-label" for="sexo_feminino">Female</label>
+						</div>
+
+						<label style="
+								color: #bd2130;
+								font-weight: bold;
+								margin-top: 10px;
+								margin-bottom: 0px;
+								display: none;
+							" id="user_sexo_id_error">Campo obrigatório</label>
+					</div>
+
+					<div class="wrap-input100 rs1 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="email" id="user_email" placeholder="Email">
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+
+					<div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
+						<input class="input100" type="password" name="pass" id="user_password" placeholder="Password">
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+
+
+
+					<div class="container-login100-form-btn m-t-20">
+						<button class="login100-form-btn">
+							Sign up
+						</button>
+					</div>
+
+					<div class="text-center p-t-45 p-b-4">
+						<span class="txt1">
+							Already have an account?
+						</span>
+
+						<a href="login.html" class="txt2 hov1">
+							Login
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.3.1.min.js"></script>
+	<script src="vendor/js-cookie/js.cookie.js"></script>
+	<script src="vendor/moment/moment.min.js"></script>
+<!--===============================================================================================-->
+	<script src="js/signup.js"></script>
+    <script src="js/common.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+/*!
+ * Start Bootstrap - Blog Home (https://startbootstrap.com/template-overviews/blog-home)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-home/blob/master/LICENSE)
+ */
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.nav-theme {
+	background-color: #fff37a !important;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.nav-color {
+	color: #000 !important;
+}
+
+#nav-logo-img {
+	height: 60px;
+	cursor: pointer;
+}
+
+.trending-poster {
+  height: 200px;
+  border-radius: 5px;
+}
+
+.trending-poster:hover {
+	height: 205px;
+	transition: 0.2s;
+	box-shadow: 6px 6px 20px 0px #000000;
+}
+
+.active {
+	font-weight: bold;
+}
+
+.filmerate-content-item {
+	border: 1px solid rgba(21,25,29,0.6);
+	border-radius: .25rem;
+	padding: 5px 10px;
+	text-align: center;
+	background-color: #fff37a;
+	margin: 0px 0.5em;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	color: black;
+	text-decoration: none !important;
+	box-sizing: border-box;
+}
+
+.filmerate-content-item:hover {
+	background: linear-gradient(#383d41, #17a2b8);
+  color: #fff;
+  transition: 0.2s;
+}
+
+.filmerate-content-item-selected {
+  background-color: #ff3d54;
+  color: white;
+}
+
+.filmerate-review-card {
+	margin: 10px 0px;
+}
+
+.filmerate-review-filme-img {
+	height: 170px;
+	float: left;
+	margin-bottom: 1.25em;
+	margin-right: 1.25em;
+	box-shadow: 6px 6px 20px 0px #000000;
+	border-radius: 5px;
+}
+
+.filmerate-filme-final-review {
+	border: 1px solid #007bfd;
+  	padding: 1em;
+  	text-align: center;
+  	width: 100px;
+  	border-radius: 10px;
+  	background-color: rgba(0,123,253,0.5);
+  	font-size: 1.2em;
+  	height: max-content;
+  	width: max-content;
+}
+
+.filmerate-like {
+	color: #1e7e34!important;
+	cursor: default!important;
+}
+
+.filmerate-dislike {
+	color: #dc3545!important;
+	cursor: default!important;
+}
+
+.filmerate-vote {
+	color: #bdbebf;
+	cursor: pointer;
+}
+
+.filme-list-card {
+	width: 170px;
+	margin: 1em auto;
+}
+
+.filme-list-card-title {
+	text-align: center;
+	background-color: #fff37a;
+	border: 1px solid rgba(0,0,0,0.63);
+	border-radius: 3px;
+	border-top: 0px;
+	border-top-left-radius: 0px;
+  	border-top-right-radius: 0px;
+  	box-sizing: border-box;
+}
+
+.filme-list-card-title a {
+	color: #000000;
+	text-decoration: none;
+}
+
+.filme-list-card-title:hover a {
+	color: #ffffff;
+}
+
+.filme-list-card-title:hover {
+	background-color: #ff3d54;
+	transition: 0.2s;
+	color: #ffffff;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #ff3d54;
+  border-radius: 8px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  color: white;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #fff37a;
+  color:  black;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #fff37a;
+  color: black;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  padding-top: 14px;
+  border-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  background-color: #fff37a87;
+  padding-bottom: 1rem !important;
+}
+
+#nav-item-admin {
+	display: none;
+}
+
+.filmerate-stats-div {
+	background-color: #fff37a;
+	border: 1px solid #343a40;
+	border-radius: .25rem;
+	padding-left: 3rem;
+	padding-right: 3rem;
+	padding-top: 1rem;
+	margin: .5em;
+}
+
+.filmerate-table {
+	margin-bottom: 0px;
+}
+
+.filmerate-table td {
+    border-color: #000000;
+    vertical-align: middle;
+}
+
+.filmerate-table th {
+	border-color: #000000;
+}
+
+.filmerate-select {
+	height: 38px;
+    border-color: #ced4da;
+    border-radius: 4px;
+}
+
+.modal {
+    /* display: none; Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1041; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+  
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+	margin: 15% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+}
+  
+#modal-loader {
+    padding: 20px;
+	width: max-content;
+	text-align: center;
+}
+  
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #ff3d54; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.filmerate-pagination {
+	margin-bottom: 0px;
+}
+  
+.filmerate-filmes-error {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 1rem;
+    background-color: #fff37a;
+    color: #ff3d54;
+    margin: auto;
+}
+
+.filmerate-filme-review-home {
+    border-top: 1px solid #adadad;
+    border-bottom: 1px solid #adadad;
+    margin-left: 135px;
+    padding: 10px 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.filmerate-star-color {
+  color: #ffd119;
+}
+
+.filmerate-review-rate-collapse {
+  color: #ff3d54;
+  cursor: pointer;
+}
+
+.filmerate-watchlist-item {
+	border: 1px solid #0000006b;
+    width: 100%;
+    border-radius: 5px;
+    padding: 1em;
+    margin-top: 1em;
+	background-color: #fff37a;
+}
+
+.filmerate-watchlist-item:first-child {
+	margin-top: 0px;
+}
+
+.filmerate-watchlist-img {
+	height: 10em;
+  border-radius: 5px;
+  box-shadow: 3px 3px 20px 1px #000000;
+}
+
+.filmerate-review-card-body {
+  min-height: 210px;
+}
+
+.filmerate-profile-review-card-body {
+  min-height: 400px;
+}
+
+.filmerate-error-card-footer {
+  height: 38px;
+}
+
+.filmerate-back-icon {
+  color: #ff3d54;
+  font-size: 1.6em;
+  cursor: pointer;
+  position: relative;
+  left: -4%;
+  top: 1.6em;
+}
+
+.filmerate-edit-title {
+  height: max-content;
+  font-size: .8em;
+}
+
+.dropdown-item.active {
+  background-color: #e9ecef;
+}

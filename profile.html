@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="my-4">FilmeRate
+            <small>Profile</small>
+        </h1>
+        <div class="card" id="filmerate-profile-card">
+            <div class="card-header">
+                <div class="d-flex flex-wrap justify-content-between">
+                    <h3 class="mb-0" id="filmerate-profile-name">{{ user.user_firstname + ' ' + user.user_lastname }}</h3>
+                    <h3 class="btn-group mb-0">
+                        <button class="btn btn-info" data-toggle="modal" data-target="#editarPerfilModal"><i class="fas fa-pen"></i>
+                            Edit profile</button>
+                        <button class="btn btn-danger" id="filmerate-logout" ng-click="logout()"><i class="fas fa-sign-out-alt"></i>
+                            Logout</button>
+                    </h3>
+                </div>
+            </div>
+            <div class="card-body p-2">
+                <div class="mt-1 mb-2" id="filmerate-sinopse">
+                    <span ng-if="!user.user_bio"><em>Edit your profile to add a bio.</em></span>
+					{{ user.user_bio }}
+				</div>
+                <div id="filmerate-detalhes">
+                    <p style="margin-bottom: 0.5em;" id="filmerate-profile-sexo"><b>Genre: </b>{{ user.sexo_descricao }}</p>
+                    <p style="margin-bottom: 0.5em;" id="filmerate-profile-pais"><b>Country: </b>{{ user.pais_nome }}</p>
+                    <p style="margin-bottom: 0.5em;" id="filmerate-profile-idade"><b>Age: </b>{{ data_nascimento + '
+                        years old' }}</p>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-start flex-wrap">
+                <a href="./watchlist" class="filmerate-content-item">
+                    <i class="fas fa-list"></i> Watchlist
+                </a>
+                <a href="./privacy" class="filmerate-content-item">
+                    <i class="fas fa-shield-alt"></i> Privacy
+                </a>
+                <div ng-if="error_message" class="filmerate-filmes-error filmerate-error-card-footer px-4 py-2">
+					<i class="fas fa-exclamation-triangle"></i>
+					<b> Error: </b>
+					<span style="color: #000000;">{{ error_message }}</span>
+				</div>
+            </div>
+        </div>
+        <div class="card filmerate-review-card" ng-repeat="review in review">
+            <div class="card-header d-inline-flex justify-content-between">
+                <a class="card-link" data-toggle="collapse" data-target="#review_{{ review.filme_classificacao_id }}" href="" aria-expanded="true">{{ review_data[$index].data }}</a>
+                <div class="d-inline-flex alignn-items-center">
+                    <a class="card-link">{{ review.filme_title }}</a>
+                    <div class="dropdown">
+                        <button class="dropdown-click ml-2 fas fa-bars btn btn-secondary btn-sm" ng-click="openOptions(review.filme_classificacao_id)"></button>
+                        <div class="dropdown-menu" id="options-{{ review.filme_classificacao_id }}">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#deleteModal" ng-click="changeDeleteId(review.filme_classificacao_id)"><i class="fas fa-trash-alt text-danger"></i> Apagar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="review_{{ review.filme_classificacao_id }}" class="collapse show">
+                <div class="card-body filmerate-profile-review-card-body">
+                    <b>{{ review.filme_classificacao_titulo }}</b>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div class="filmerate-filme-review">
+                            Plot: <div class="starrr" id="roteiro-{{ review.filme_classificacao_id }}"></div><br>
+                            Actors: <div class="starrr" id="atores-{{ review.filme_classificacao_id }}"></div><br>
+                            Visuals: <div class="starrr" id="cenario-{{ review.filme_classificacao_id }}"></div><br>
+                            Execution: <div class="starrr" id="execucao-{{ review.filme_classificacao_id }}"></div>
+                        </div>
+                        <div class="filmerate-filme-final-review">
+                            <i class="fas fa-star" style="color: #ffd119"></i> {{ review.filme_classificacao_media }}<sub>/10</sub>
+                        </div>
+                    </div>
+                    <hr>
+                    <a href="./filme/{{ review.filme_classificacao_filme_id }}"><img class="filmerate-review-filme-img" src="{{ review.filme_poster }}"></a>
+                    <p>{{ review.filme_classificacao_corpo }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <div>
+                        <a href="./filme/{{ review.filme_classificacao_filme_id }}">Go to movie...</a>
+                    </div>
+                    <div>
+                        <big class="mr-2" ng-if="review_score[$index].liked == 0"><i id="like-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote" ng-click="likeReview(review.filme_classificacao_id, $index)"></i> {{ review_score[$index].likes }}</big>
+                        <big class="mr-2" ng-if="review_score[$index].liked == 1"><i id="like-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote filmerate-like"></i> {{ review_score[$index].likes }}</big>
+                        <big ng-if="review_score[$index].disliked == 0"><i id="dislike-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote" ng-click="dislikeReview(review.filme_classificacao_id, $index)"></i> {{ review_score[$index].dislikes }}</big>
+                        <big ng-if="review_score[$index].disliked == 1"><i id="dislike-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote filmerate-dislike"></i> {{ review_score[$index].dislikes }}</big>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="editarPerfilModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Edit profile</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="user_firstname" placeholder="First name" value="{{ user.user_firstname }}" required>
+                    <input type="text" class="form-control" id="user_lastname" placeholder="Last name" value="{{ user.user_lastname }}" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                    </div>
+                    <input type="date" class="form-control" id="user_data_nascimento" value="{{ data_nascimento_calendario }}">
+                </div>
+                <div class="form-group">
+                    <label for="user_bio">Bio:</label>
+                    <textarea rows="5" class="form-control" id="user_bio">{{ user.user_bio }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="user_pais_id">Country:</label>
+                    <select class="form-control" id="user_pais_id" ng-model="user_pais_id">
+                        <option ng-repeat="x in pais" value="{{ x.pais_id }}">{{ x.pais_nome }}</option>
+                    </select>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="sexo_masculino" name="user_sexo_id" value="1" required>
+                    <label class="custom-control-label" for="sexo_masculino">Male</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="sexo_feminino" name="user_sexo_id" value="2" required>
+                    <label class="custom-control-label" for="sexo_feminino">Female</label>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="guardarPerfil()">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Delete review</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <span>Are you sure you want to delete your review?</span>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="apagarReview(review_id)">Delete</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<loading></loading>

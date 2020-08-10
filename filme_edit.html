@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="col-md-12">
+		<i class="fas fa-arrow-left filmerate-back-icon"></i>
+		<h1 class="mb-4">FilmeRate
+            <small>Modo de edição</small>
+		</h1>
+		<form class="card" id="filmerate-filme-card" name="editForm">
+			<div class="card-header">
+				<div class="d-flex justify-content-between">
+					<h3 id="filmerate-filme-title" class="mb-0" style="width:100%">
+                        <input class="form-control filmerate-edit-title" placeholder="Título" ng-model="filme_title" name="filme_title" required>
+                    </h3>
+				</div>
+			</div>
+			<div class="card-body p-0">
+				<div class="m-2" id="filmerate-sinopse">
+					<p class="m-1 font-weight-bold">Sinopse:</p>
+					<textarea class="form-control" placeholder="Sinopse" rows="5" ng-model="filme_sinopse"></textarea>
+				</div>
+				<div class="mx-2" id="filmerate-detalhes">
+					<p class="m-0 font-weight-bold">Duração: <span style="color: #00000073;font-size: 0.7em;">(MINUTOS)</span></p>
+					<input class="form-control my-2" placeholder="Duração" ng-model="filme_duracao" name="filme_duracao" type="number" min="0" max="1000">
+					<p class="m-0 font-weight-bold">Data de estreia:<sup style="color:red">*</sup></p>
+					<input class="form-control my-2" placeholder="Data de estreia" ng-model="filme_data_estreia" value="{{data_estreia}}" name="filme_data_estreia" type="date" required>
+					<p class="m-0 font-weight-bold">Poster:<sup style="color:red">*</sup></p>
+					<input class="form-control my-2" placeholder="Poster (URL)" ng-model="filme_poster" name="filme_poster" required>
+				</div>
+			</div>
+			<div class="card-footer d-flex justify-content-start flex-wrap">
+				<div class="btn-group mr-3">
+					<button class="btn btn-success disabled" ng-if="editForm.filme_title.$invalid || editForm.filme_data_estreia.$invalid || editForm.filme_poster.$invalid">
+						<i class="fas fa-save"></i>
+						Gravar
+					</button>
+					<button class="btn btn-success" ng-click="saveChanges()" ng-if="editForm.filme_title.$valid && editForm.filme_data_estreia.$valid && editForm.filme_poster.$valid">
+						<i class="fas fa-save"></i>
+						Gravar
+					</button>
+					<button class="btn btn-danger">
+						<i class="fas fa-times"></i>
+						Cancelar
+					</button>
+				</div>
+				<div ng-if="error_message" class="filmerate-filmes-error filmerate-error-card-footer px-4 py-2">
+					<i class="fas fa-exclamation-triangle"></i>
+					<b> Erro: </b>
+					<span style="color: #000000;">{{ error_message }}</span>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<loading></loading>

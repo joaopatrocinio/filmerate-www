@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-12">
+        <i class="fas fa-arrow-left filmerate-back-icon"></i>
+        <h1 class="mb-4">FilmeRate
+            <small>Privacy settings</small>
+        </h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h6 class="m-0">Choose how people can access your profile on FilmeRate:</h6>
+            </div>
+            <div class="card-body">
+                <div ng-if="error_message" class="filmerate-filmes-error mb-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <b> Error: </b>
+                    <span style="color: #000000;">{{ error_message }}</span>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="privacy_1">
+                        <input type="radio" class="form-check-input" ng-model="privacy" id="privacy_1" name="user_privacy" value="1"><i class="fas fa-unlock"></i> Everyone can access your profile
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="privacy_2">
+                        <input type="radio" class="form-check-input" ng-model="privacy" id="privacy_2" name="user_privacy" value="2"><i class="fas fa-key"></i> Only logged in users can access your profile
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="privacy_3">
+                        <input type="radio" class="form-check-input" ng-model="privacy" id="privacy_3" name="user_privacy" value="3"><i class="fas fa-lock"></i> Only you can access your profile
+                    </label>
+                </div>
+            </div>
+            <div class="card-footer d-inline-flex justify-content-end">
+                <button class="btn btn-success" ng-click="changePrivacy()"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<loading></loading>

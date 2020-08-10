@@ -1,0 +1,25 @@
+<div class="container" ng-controller="headerCtrl">
+    <!--<a class="navbar-brand nav-color" href="#">FilmeRate</a>-->
+    <a href="https://filmerate.com/"><img id="nav-logo-img" src="https://filmerate.com/res/header-avatar.png"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" id="nav-item-home">
+                <a class="nav-link nav-color" href="https://filmerate.com/" data-toggle="collapse" data-target=".navbar-collapse.show">Home</a>
+            </li>
+            <li class="nav-item" id="nav-item-filmes">
+                <a class="nav-link nav-color" href="https://filmerate.com/filmes" data-toggle="collapse" data-target=".navbar-collapse.show">Movies</a>
+            </li>
+            <li class="nav-item" id="nav-item-admin">
+                <a class="nav-link nav-color" href="https://filmerate.com/admin" data-toggle="collapse" data-target=".navbar-collapse.show">Admin</a>
+            </li>
+            <li class="nav-item" id="nav-item-user">
+                <a class="nav-link nav-color" href="http://filmerate.com/login.html" id="nav-user">{{ fullname }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<loading></loading>

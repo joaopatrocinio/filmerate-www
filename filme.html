@@ -1,0 +1,170 @@
+<div class="row">
+	<div class="col-md-12">
+		<i class="fas fa-arrow-left filmerate-back-icon"></i>
+		<h1 class="mb-4">FilmeRate
+			<small>Movie</small>
+		</h1>
+		<div class="card" id="filmerate-filme-card">
+			<div class="card-header">
+				<div class="d-flex justify-content-between">
+					<h3 id="filmerate-filme-title">{{ filme.filme_title }}</h3>
+					<h3>
+						<i class="fas fa-star" style="color: #ffd119"></i> {{ filme_reviews_avg }}<sub>/10</sub>
+					</h3>
+				</div>
+				<div class="d-flex justify-content-between">
+					<div id="filmerate-year">{{ filme.filme_ano }}</div>
+					<a href="./filme_edit?id={{ filme.filme_id }}"><button ng-if="admin" class="btn btn-info btn-sm">Edit</button></a>
+				</div>
+			</div>
+			<div class="card-body p-0">
+				<img id="filmerate-filme-poster" class="mr-2" src="{{ filme.filme_poster }}" style="float: left;width:200px;">
+				<div class="m-2" id="filmerate-sinopse">
+					<span ng-if="filme.filme_sinopse == null"><em>Data unavailable.</em></span>
+					{{ filme.filme_sinopse }}
+				</div>
+				<div class="m-2" id="filmerate-detalhes">
+                    <p style="margin-bottom: 0.5em;" id="filmerate-filme-elenco"><b>Genre: </b><span ng-repeat="x in generos">{{ x.genero_descricao }} </span></p>
+					<p style="margin-bottom: 0.5em;" id="filmerate-filme-realizador"><b>Director: </b><a href="./realizador?id={{ filme.filme_realizador_id }}">{{ filme.realizador_nome }}</a></p>
+					<p style="margin-bottom: 0.5em;" id="filmerate-filme-elenco"><b>Cast: </b><span ng-repeat="x in atores"><a href="./ator?id={{ x.ator_id }}">{{ x.ator_nome }}</a> </span></p>
+                    <p style="margin-bottom: 0.5em;" id="filmerate-filme-duracao"><b>Runtime: </b><span ng-if="filme.filme_duracao != null">{{ filme.filme_duracao }} minutes</span><span ng-if="filme.filme_duracao == null"><em>Data unavailable.</em></span></p>
+                    <p style="margin-bottom: 0.5em;" id="filmerate-filme-duracao"><b>Release date: </b><span ng-if="filme.filme_data_estreia != null">{{ data_estreia }}</span><span ng-if="filme.filme_data_estreia == null"><em>Data unavailable.</em></span></p>
+				</div>
+			</div>
+			<div class="card-footer d-flex justify-content-start flex-wrap">
+				<div ng-init="watchlist_add = true" class="btn-group mr-3">
+					<button ng-if="watchlist_add" class="btn btn-success" ng-click="watchlist_add ? addWatchList() : deleteWatchList();">
+						<i class="fas fa-plus"></i> Watchlist
+					</button>
+					<button ng-if="!watchlist_add" class="btn btn-danger" ng-click="watchlist_add ? addWatchList() : deleteWatchList();">
+						<i class="fas fa-minus"></i> Watchlist
+					</button>
+					<button class="btn btn-success" data-toggle="collapse" data-target="#review-collapse"><i class="fas fa-plus"></i> Review</button>
+				</div>
+				<a href="https://www.imdb.com/title/{{ filme.filme_imdb }}"><img src="res/IMDb-icon.png" style="height: 38px"></img></a>
+				<div class="ml-3" ng-if="admin">
+					<button ng-if="trending_add" class="btn btn-success" ng-click="trending_add ? addTrending() : deleteTrending();">
+						<i class="fas fa-plus"></i> Trending
+					</button>
+					<button ng-if="!trending_add" class="btn btn-danger" ng-click="trending_add ? addTrending() : deleteTrending();">
+						<i class="fas fa-minus"></i> Trending
+					</button>
+				</div>
+				<div ng-if="error_message" class="filmerate-filmes-error filmerate-error-card-footer px-4 py-2">
+					<i class="fas fa-exclamation-triangle"></i>
+					<b> Error: </b>
+					<span style="color: #000000;">{{ error_message }}</span>
+				</div>
+			</div>
+		</div>
+		<form class="card mt-2 collapse" id="review-collapse" name="insert-review">
+			<div class="card-header">Write a review</div>
+			<div class="card-body">
+				<div class="form-group">
+					<label for="filme_classificacao_titulo">Title:</label>
+					<input type="text" class="form-control" ng-model="titulo" id="filme_classificacao_titulo" required>
+				</div>
+				<div class="d-flex justify-content-between py-2 mb-2 border border-left-0 border-right-0 align-items-center">
+					<div class="filmerate-filme-review">
+						Plot: <div class="starrr" id="filmerate-user-review-roteiro"></div><br>
+						Actors: <div class="starrr" id="filmerate-user-review-atores"></div><br>
+						Visuals: <div class="starrr" id="filmerate-user-review-cenario"></div><br>
+						Execution: <div class="starrr" id="filmerate-user-review-execucao"></div>
+					</div>
+					<div class="filmerate-filme-final-review">
+						<i class="fas fa-star" style="color: #ffd119"></i> {{ review_media }}<sub>/10</sub>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="filme_classificacao_corpo">Body:</label>
+					<textarea class="form-control" id="filme_classificacao_corpo" ng-model="corpo" rows="5" required></textarea>
+				</div>
+			</div>
+			<div class="card-footer d-inline-flex justify-content-end">
+				<div class="btn-group">
+					<button class="btn btn-danger" data-toggle="collapse" data-target="#review-collapse">Cancel</button>
+					<input class="btn btn-success disabled" ng-if="!review_roteiro || !review_atores || !review_cenario || !review_execucao || titulo == '' || corpo == ''" type="submit" value="Publish">
+					<input class="btn btn-success" ng-if="review_roteiro && review_atores && review_cenario && review_execucao && titulo != '' && corpo != ''" ng-click="insertReview()" type="submit" value="Publish">
+				</div>
+			</div>
+		</form>
+		<!--<div class="card filmerate-review-card">
+			<div class="card-header d-inline-flex justify-content-between">
+				<a class="card-link" data-toggle="collapse" data-target="#review_123" href="" aria-expanded="true">Utilizador</a>
+				<a class="card-link">Ontem</a>
+			</div>
+			<div id="review_123" class="collapse show">
+				<div class="card-body">
+					<b>Good movie</b>
+					<hr>
+					<div class="d-flex justify-content-between">
+						<div class="filmerate-filme-review">
+							Roteiro: <div class="starrr" id="filmerate-filme-review-roteiro"></div><br>
+							Atores: <div class="starrr" id="filmerate-filme-review-roteiro"></div><br>
+							Cenário: <div class="starrr" id="filmerate-filme-review-roteiro"></div><br>
+							Execução: <div class="starrr" id="filmerate-filme-review-roteiro"></div>
+						</div>
+						<div class="filmerate-filme-final-review">
+							<i class="fas fa-star" style="color: #ffd119"></i> 8<sub>/10</sub>
+						</div>
+					</div>
+					<hr>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+						magna aliqua. Ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Tincidunt praesent semper
+						feugiat nibh. Aenean euismod elementum nisi quis. Amet nisl purus in mollis. Sit amet purus gravida quis
+						blandit. Sed faucibus turpis in eu mi bibendum. Nunc eget lorem dolor sed. Feugiat sed lectus vestibulum mattis
+						ullamcorper velit. Mus mauris vitae ultricies leo integer. Ornare suspendisse sed nisi lacus sed viverra. Duis
+						tristique sollicitudin nibh sit amet commodo nulla. Quis auctor elit sed vulputate. Ut sem nulla pharetra diam.</p>
+				</div>
+				<div class="card-footer d-flex justify-content-between">
+					<div>
+
+					</div>
+					<div>
+						<big class="mr-2"><i class="fas fa-thumbs-up filmerate-like"></i> 1234</big>
+						<big><i class="fas fa-thumbs-down filmerate-dislike"></i> 1234</big>
+					</div>
+				</div>
+			</div>
+		</div>-->
+		<div class="card filmerate-review-card" ng-repeat="review in review">
+            <div class="card-header d-inline-flex justify-content-between">
+                <a class="card-link" data-toggle="collapse" data-target="#review_{{ review.filme_classificacao_id }}" href="" aria-expanded="true">{{ review.user_firstname + " " + review.user_lastname }}</a>
+                <a class="card-link">{{ review_data[$index].data }}</a>
+            </div>
+            <div id="review_{{ review.filme_classificacao_id }}" class="collapse show">
+                <div class="card-body filmerate-profile-review-card-body">
+                    <b>{{ review.filme_classificacao_titulo }}</b>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div class="filmerate-filme-review">
+                            Plot: <div class="starrr" id="roteiro-{{ review.filme_classificacao_id }}"></div><br>
+                            Actors: <div class="starrr" id="atores-{{ review.filme_classificacao_id }}"></div><br>
+                            Visuals: <div class="starrr" id="cenario-{{ review.filme_classificacao_id }}"></div><br>
+                            Execution: <div class="starrr" id="execucao-{{ review.filme_classificacao_id }}"></div>
+                        </div>
+                        <div class="filmerate-filme-final-review">
+                            <i class="fas fa-star" style="color: #ffd119"></i> {{ review.filme_classificacao_media }}<sub>/10</sub>
+                        </div>
+                    </div>
+                    <hr>
+                    <p>{{ review.filme_classificacao_corpo }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <div>
+                        <a href="./user/{{ review.filme_classificacao_user_id }}">Go to user profile...</a>
+                    </div>
+                    <div>
+                        <big class="mr-2" ng-if="review_score[$index].liked == 0"><i id="like-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote" ng-click="likeReview(review.filme_classificacao_id, $index)"></i> {{ review_score[$index].likes }}</big>
+                        <big class="mr-2" ng-if="review_score[$index].liked == 1"><i id="like-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote filmerate-like"></i> {{ review_score[$index].likes }}</big>
+						<big class="mr-2" ng-if="logged_in == false"><i id="like-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote"></i> {{ review_score[$index].likes }}</big>
+						<big ng-if="review_score[$index].disliked == 0"><i id="dislike-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote" ng-click="dislikeReview(review.filme_classificacao_id, $index)"></i> {{ review_score[$index].dislikes }}</big>
+						<big ng-if="review_score[$index].disliked == 1"><i id="dislike-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote filmerate-dislike"></i> {{ review_score[$index].dislikes }}</big>
+						<big ng-if="logged_in == false"><i id="like-{{ review.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote"></i> {{ review_score[$index].dislikes }}</big>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<loading></loading>

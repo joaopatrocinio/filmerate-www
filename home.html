@@ -1,0 +1,192 @@
+<div class="row">
+
+    <!-- Blog Entries Column -->
+    <div class="col-md-8">
+
+        <h1 class="my-4">FilmeRate
+            <small>Home</small>
+        </h1>
+
+        <div class="card ">
+            <div class="card-body d-flex justify-content-start flex-wrap">
+                <div id="filmerate-sorting-trending" class="flex-fill filmerate-content-item" ng-click="changeSorting('trending')">Trending</div>
+                <div id="filmerate-sorting-top" class="flex-fill filmerate-content-item filmerate-content-item-selected" ng-click="changeSorting('top')">Top</div>
+                <div id="filmerate-sorting-new" class="flex-fill filmerate-content-item" ng-click="changeSorting('new')">New</div>
+            </div>
+        </div>
+        <div ng-if="error_message" class="filmerate-filmes-error mt-4">
+            <i class="fas fa-exclamation-triangle"></i>
+            <b> Error: </b>
+            <span style="color: #000000;">{{ error_message }}</span>
+        </div>
+        <div class="card filmerate-review-card" ng-repeat="x in review">
+            <div class="card-header d-inline-flex justify-content-between">
+                <a class="card-link" data-toggle="collapse" data-target="#review_{{ x.filme_classificacao_id }}" href="" aria-expanded="true">{{ x.filme_title }}</a>
+                <div class="d-inline-flex alignn-items-center">
+                    <a class="card-link" href="./user/{{ x.filme_classificacao_user_id }}">{{ x.user_firstname + ' ' + x.user_lastname }}</a>
+                    <div class="dropdown">
+                        <button class="dropdown-click ml-2 fas fa-bars btn btn-secondary btn-sm" ng-click="openOptions(x.filme_classificacao_id)"></button>
+                        <div class="dropdown-menu" id="options-{{ x.filme_classificacao_id }}">
+                            <a ng-if="x.filme_classificacao_user_id == user_id" class="dropdown-item" data-toggle="modal" data-target="#deleteModal" ng-click="changeDeleteId(x.filme_classificacao_id)"><i class="fas fa-trash-alt text-danger"></i> Apagar</a>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#reportModal" ng-click="changeReportId(x.filme_classificacao_id)"><i class="fas fa-flag text-warning"></i> Report</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="review_{{ x.filme_classificacao_id }}" class="collapse show">
+                <div class="card-body filmerate-review-card-body">
+                    <a href="./filme/{{ x.filme_classificacao_filme_id }}"><img class="filmerate-review-filme-img" src="{{ x.filme_poster }}"></a>
+                    <b>{{ x.filme_classificacao_titulo }} </b>
+                    <b style="float:right;">
+                        <i class="fas fa-star filmerate-star-color"></i>
+                        {{ x.filme_classificacao_media }}<sub>/10</sub>
+                        <i class="fas fa-angle-down filmerate-review-rate-collapse" data-target="#review_rate_{{ x.filme_classificacao_id }}" data-toggle="collapse"></i>
+                    </b>
+                    <div class="filmerate-filme-review-home collapse" id="review_rate_{{ x.filme_classificacao_id }}">
+                        <table>
+                            <tr>
+                                <td>Plot:</td>
+                                <td><div class="starrr" id="roteiro-{{x.filme_classificacao_id}}"></div></td>
+                            </tr>
+                            <tr>
+                                <td>Actors:</td>
+                                <td><div class="starrr" id="atores-{{x.filme_classificacao_id}}"></div></td>
+                            </tr>
+                            <tr>
+                                <td>Visuals:</td>
+                                <td><div class="starrr" id="cenario-{{x.filme_classificacao_id}}"></div></td>
+                            </tr>
+                            <tr>
+                                <td>Execution:</td>
+                                <td><div class="starrr" id="execucao-{{x.filme_classificacao_id}}"></div></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p>{{ x.filme_classificacao_corpo }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <div>
+                        {{ review_data[$index].data }}
+                    </div>
+                    <div>
+                        <big class="mr-2" ng-if="review_score[$index].liked == 0"><i id="like-{{ x.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote" ng-click="likeReview(x.filme_classificacao_id, $index)"></i> {{ review_score[$index].likes }}</big>
+                        <big class="mr-2" ng-if="review_score[$index].liked == 1"><i id="like-{{ x.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote filmerate-like"></i> {{ review_score[$index].likes }}</big>
+                        <big class="mr-2" ng-if="logged_in == false"><i id="like-{{ x.filme_classificacao_id }}" class="fas fa-thumbs-up filmerate-vote"></i> {{ review_score[$index].likes }}</big>
+                        <big ng-if="review_score[$index].disliked == 0"><i id="dislike-{{ x.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote" ng-click="dislikeReview(x.filme_classificacao_id, $index)"></i> {{ review_score[$index].dislikes }}</big>
+                        <big ng-if="review_score[$index].disliked == 1"><i id="dislike-{{ x.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote filmerate-dislike"></i> {{ review_score[$index].dislikes }}</big>
+                        <big ng-if="logged_in == false"><i id="like-{{ x.filme_classificacao_id }}" class="fas fa-thumbs-down filmerate-vote"></i> {{ review_score[$index].dislikes }}</big>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+        <!-- Search Widget -->
+        <div class="card my-4">
+            <h5 class="card-header">Search from	 {{ count }} movies</h5>
+            <div class="card-body">
+                <form>
+                    <div class="input-group">
+                        <input ng-model="search" type="text" class="form-control" placeholder="Ex.: Titanic...">
+                        <div class="input-group-append">
+                            <a href="./filmes?query={{ search }}"><button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Categories Widget -->
+        <div class="card my-4">
+            <h5 class="card-header">Genres</h5>
+            <div class="card-body d-flex flex-wrap">
+                <a class="p-1" ng-repeat="x in generos" href="./filmes?cat={{ x.genero_id }}">{{ x.genero_descricao }}</a>
+            </div>
+        </div>
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+            <h5 class="card-header">Trending</h5>
+            <div class="card-body d-inline-flex flex-wrap justify-content-center">
+                <div class="p-2" ng-repeat="x in trending">
+                    <a href="./filme/{{ x.filme_trending_filme_id }}">
+                        <img class="trending-poster" src="{{ x.filme_poster }}">
+                    </a>
+                </div>
+                <!--<div class="p-2">
+                    <a href="./filme?id=1">
+                        <img class="trending-poster" src="https://m.media-amazon.com/images/M/MV5BNTk4ODQ1MzgzNl5BMl5BanBnXkFtZTgwMTMyMzM4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                    </a>
+                </div>
+                <div class="p-2">
+                    <a href="./filme?id=2">
+                        <img class="trending-poster" src="https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_UY190_CR0,0,128,190_AL_.jpg">
+                    </a>
+                </div>
+                <div class="p-2">
+                    <a href="./filme?id=3">
+                        <img class="trending-poster" src="https://m.media-amazon.com/images/M/MV5BMjMyNDkzMzI1OF5BMl5BanBnXkFtZTgwODcxODg5MjI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                    </a>
+                </div>
+                <div class="p-2">
+                    <a href="./filme?id=4">
+                        <img class="trending-poster" src="https://m.media-amazon.com/images/M/MV5BNjgwNzAzNjk1Nl5BMl5BanBnXkFtZTgwMzQ2NjI1OTE@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                    </a>
+                </div>-->
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /.row -->
+
+<div class="modal fade" id="reportModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Report review</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="filme_report_motivo">Reason:</label>
+                    <textarea rows="5" class="form-control" id="filme_report_motivo" ng-model="filme_report_motivo"></textarea>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="enviarReport(report_id)">Report</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Delete your review</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <span>Are you sure you want to delete your review?</span>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="apagarReview(review_id)">Delete</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<loading></loading>

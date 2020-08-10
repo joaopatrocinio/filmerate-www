@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="my-4">FilmeRate
+            <small>Movies</small>
+        </h1>
+
+        <div class="card">
+            <div class="card-header d-inline-flex justify-content-between flex-wrap">
+                <div>Year:
+					<select class="filmerate-select" ng-model="ano" ng-change="changeYear()" ng-options="x.filme_ano for x in anos">
+                    </select>
+                </div>
+				<div>Genre:
+					<select class="filmerate-select" ng-model="genero" ng-change="changeGenre()" ng-options="y.genero_descricao for (x, y) in generos">
+                    </select>
+                </div>
+                <div>Show:
+					<select ng-options="x for x in sizes" ng-model="showSize" ng-change="changeSize()" class="filmerate-select">
+                    </select>
+                </div>
+                <form>
+                    <div class="input-group">
+                        <input ng-model="search" type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <a href="./filmes?query={{ search }}"><button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body d-flex flex-wrap" id="filme-list">
+                <div ng-repeat="x in filmes" class='card filme-list-card'>
+                    <img class='card-img-top' src='{{ x.filme_poster }}'>
+                    <div class='card-body p-2 filme-list-card-title'>
+						<a href="./filme/{{ x.filme_id }}" class='card-text'>{{ x.filme_title }}</a>
+					</div>
+                </div>
+                <div ng-if="error_message" class="filmerate-filmes-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <b> Error: </b>
+                    <span style="color: #000000;">{{ error_message }}</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <ul class="pagination filmerate-pagination justify-content-center">
+                    <li ng-if="nextPage == 2" class="page-item disabled">
+                        <a class="page-link" href="./filmes?size={{ size }}&page={{ nextPage - 2 }}&year={{ year }}&cat={{ category }}&query={{ query }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li ng-if="nextPage > 2" class="page-item">
+                        <a class="page-link" href="./filmes?size={{ size }}&page={{ nextPage - 2 }}&year={{ year }}&cat={{ category }}&query={{ query }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li ng-if="filmeCount != size" class="page-item disabled">
+                        <a class="page-link" href="./filmes?size={{ size }}&page={{ nextPage }}&year={{ year }}&cat={{ category }}&query={{ query }}" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                    <li ng-if="filmeCount == size" class="page-item">
+                        <a class="page-link" href="./filmes?size={{ size }}&page={{ nextPage }}&year={{ year }}&cat={{ category }}&query={{ query }}" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<loading></loading>

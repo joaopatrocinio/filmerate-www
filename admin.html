@@ -1,0 +1,245 @@
+<div class="row">
+	<div class="col-md-12">
+		<h1 class="my-4">FilmeRate
+			<small>Admin Panel</small>
+		</h1>
+
+		<div class="tab">
+			<button class="tablinks active" onclick="openTab(event, 'Geral')">Geral</button>
+			<button class="tablinks" onclick="openTab(event, 'Movie-Scrape')">Movie Scrape</button>
+			<button class="tablinks" onclick="openTab(event, 'Stats')">Estatísticas</button>
+			<button class="tablinks" onclick="openTab(event, 'Users')">Utilizadores</button>
+			<button class="tablinks" onclick="openTab(event, 'Reports')">Reports</button>
+		</div>
+
+		<div id="Geral" class="tabcontent" style="display: block;">
+			<span>Bem-vindo ao painel de controlo de administrador.</span>
+		</div>
+
+		<div id="Movie-Scrape" class="tabcontent">
+			<div class="form-inline">
+				<label class="mr-2">IMDb ID: </label>
+				<input ng-model="imdb_id" id="filme_imdb_scrape" type="text" class="form-control mr-2">
+				<button ng-click="scrape()" id="scrape-submit" class="btn btn-success mr-2">Scrape</button>
+				<br>
+				<b id="scrape-success">{{ scrape_message }}</b>
+			</div>
+			<div id="scrape-preview" class="card-body p-0 mb-3" style="display:none;">
+				<div class="m-2" id="filmerate-detalhes">
+					<p style="margin-bottom: 0.5em;" id="filmerate-filme-titulo"><b>Título: </b></p>
+				</div>
+				<div class="m-2" id="filmerate-sinopse"></div>
+			</div>
+		</div>
+
+		<div id="Stats" class="tabcontent">
+			<div class="d-flex flex-wrap">
+				<div class="filmerate-stats-div">
+					<h4>Filmes:</h4>
+					<p>Total: <b>{{ stats.filmes_total }}</b></p>
+				</div>
+
+				<div class="filmerate-stats-div">
+					<h4>Utilizadores:</h4>
+					<p>Total: <b>{{ stats.users_total }}</b></p>
+				</div>
+
+				<div class="filmerate-stats-div">
+					<h4>Atores:</h4>
+					<p>Total: <b>{{ stats.actors_total }}</b></p>
+				</div>
+
+				<div class="filmerate-stats-div">
+					<h4>Realizadores:</h4>
+					<p>Total: <b>{{ stats.directors_total }}</b></p>
+				</div>
+			</div>
+		</div>
+
+		<div id="Users" class="tabcontent">
+			<div class="input-group mb-3">
+                <input ng-model="queryUsers" type="text" class="form-control" placeholder="Search">
+                <div class="input-group-append">
+					<button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+			<table class="table filmerate-table">
+				<tr>
+					<th></th>
+					<th>ID</th>
+					<th>Nome Próprio</th>
+					<th>Apelido</th>
+					<th>Email</th>
+				</tr>
+				<tr ng-repeat="x in user | filter : queryUsers">
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-info" data-toggle="modal" data-target="#editUserModal" ng-click="changeModalData(x.user_id)">Editar</button>
+							<button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" ng-click="changeDeleteModalId(x.user_id)">Apagar</button>
+						</div>
+					</td>
+					<td>{{ x.user_id }}</td>
+					<td>{{ x.user_firstname }}</td>
+					<td>{{ x.user_lastname }}</td>
+					<td>{{ x.user_email }}</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="Reports" class="tabcontent">
+			<table class="table filmerate-table">
+				<tr>
+					<th></th>
+					<th>Titulo</th>
+					<th>Corpo</th>
+					<th>Motivo</th>
+					<th>Situação</th>
+				</tr>
+				<tr ng-repeat="x in reports">
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-info" data-toggle="modal" data-target="#ignoreReportModal" ng-click="changeIgnoreModalData(x.filme_report_id)">Ignorar</button>
+							<button class="btn btn-danger" data-toggle="modal" data-target="#deleteReportModal" ng-click="changeDeleteReportModalId(x.filme_report_filme_classificacao_id)">Apagar</button>
+						</div>
+					</td>
+					<td ng-if="x.filme_report_aceite == 1">Apagado</td>
+					<td ng-if="x.filme_report_aceite == 0">{{ x.filme_classificacao_titulo }}</td>
+					<td ng-if="x.filme_report_aceite == 1">Apagado</td>
+					<td ng-if="x.filme_report_aceite == 0">{{ x.filme_classificacao_corpo }}</td>
+					<td>{{ x.filme_report_motivo }}</td>
+					<td ng-if="x.filme_report_aceite == 0">Pendente</td>
+					<td ng-if="x.filme_report_aceite == 1">Apagado</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="editUserModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Editar perfil</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+	  <div class="modal-body">
+		  <div class="input-group mb-3">
+			  <div class="input-group-prepend">
+				  <span class="input-group-text"><i class="fas fa-user"></i></span>
+			  </div>
+			  <input type="text" class="form-control" id="user_firstname" placeholder="Nome Próprio" value="{{ selected_user.user_firstname }}" required>
+			  <input type="text" class="form-control" id="user_lastname" placeholder="Apelido" value="{{ selected_user.user_lastname }}" required>
+		  </div>
+		  <div class="input-group mb-3">
+			  <div class="input-group-prepend">
+				  <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+			  </div>
+			  <input type="date" class="form-control" id="user_data_nascimento" value="{{ data_nascimento_calendario }}">
+		  </div>
+		  <div class="form-group">
+			  <label for="user_bio">Biografia:</label>
+			  <textarea rows="5" class="form-control" id="user_bio">{{ selected_user.user_bio }}</textarea>
+		  </div>
+		  <div class="form-group">
+			  <label for="user_pais_id">País:</label>
+			  <select class="form-control" id="user_pais_id" ng-model="user_pais_id">
+				  <option ng-repeat="x in pais" value="{{ x.pais_id }}">{{ x.pais_nome }}</option>
+			  </select>
+		  </div>
+		  <div class="form-group">
+			  <label for="user_user_type_id">Tipo de utilizador:</label>
+			  <select class="form-control" id="user_user_type_id" ng-model="user_user_type_id">
+				  <option value="1">Administrador</option>
+				  <option value="2">Utilizador</option>
+			  </select>
+		  </div>
+		  <div class="custom-control custom-radio custom-control-inline">
+			  <input type="radio" class="custom-control-input" id="sexo_masculino" name="user_sexo_id" value="1" required>
+			  <label class="custom-control-label" for="sexo_masculino">Masculino</label>
+		  </div>
+		  <div class="custom-control custom-radio custom-control-inline">
+			  <input type="radio" class="custom-control-input" id="sexo_feminino" name="user_sexo_id" value="2" required>
+			  <label class="custom-control-label" for="sexo_feminino">Feminino</label>
+		  </div>
+	  </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+		<div class="btn-group">
+			<button type="button" class="btn btn-success" ng-click="updateUser(edit_user_id)" data-dismiss="modal">Editar</button>
+			<button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+		</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Apagar utilizador</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <span>Tem a certeza que deseja apagar este utilizador?</span>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="deleteUser(delete_user_id)">Apagar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ignoreReportModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Ignorar report</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <span>Tem a certeza que deseja ignorar este report?</span>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="ignoreReport(ignore_report_id)">Ignorar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteReportModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Apagar classificação</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <span>Tem a certeza que deseja apagar esta classifcação?</span>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="deleteReport(delete_report_id)">Apagar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<loading></loading>
